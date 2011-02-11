@@ -10,10 +10,11 @@ require './ZombieSim.rb'
 # regardless of initial number of zombies.
 # ----------
 
-ZombieSim.initSim
+z = ZombieSim.new(20, 10)
 
-1000.times do
-	ZombieSim.step
+10.times do |i|
+	p "---> Step #{i}"
+	z.step
 end
 
-ZombieSim.report
+z.report
