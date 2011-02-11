@@ -1,60 +1,50 @@
-# 3D coordinate system. Imagine, for example, that z = 0 is street level, 
-# z = -1 is a basement/subway, z = 1 is first floor of a multi-story building.
-class Coor3D
-	attr_accessor :x, :y, :z
-
-	def initialize(x,y,z)
-		@x, @y, @z = x, y, z	
-	end
-
-	def to_s
-		"(#@x,#@y,#@z)"
-	end
-
-	def ==(o)
-		if o.is_a? Coor3D
-			o.x == @x && o.y == @y && o.z == @z
-		else
-			false
-		end
-	end
-end
-
 # All zombies, humans, wild animals, etc. are derived from an Agent.
 class Agent
 	attr_reader :energy, :health
 
-	def initialize(coor)
+	def initialize
 		@energy   = 100
 		@health   = 100
-		@location = coor
 	end
 
-	def eat
-		@engery += 1
+	def moveFrom(coor)
+		to = coor.dup
+
+		d_x, d_y, d_z = rand(2), rand(2), rand(2)
+		to.x += d_x
+		to.y += d_y
+		to.z += d_z
+
+		to
 	end
 
 	def to_s
-		"E: #@energy; H: #@health; Location: #{@location.to_s}"
+		"E: #@energy; H: #@health"
 	end
 end
 
 class Zombie < Agent
 	@@count = 0
 
-	def initialize(coor)
+	def initialize
 		super
 		@@count += 1
+	end
+
+	def Zombie.report
+		puts "There are #@@count zombies in the world."
 	end
 end
 
 class Human < Agent
-	attr_reader :happiness
 	@@count = 0
 
-	def initialize(coor)
+	def initialize
 		super
-		@happiness = 100
 		@@count   += 1
+	end
+
+	def Human.report
+		puts "There are #@@count humans in the world."
 	end
 end
