@@ -34,7 +34,6 @@ Movement, similar to chances of zombification, is based on energy, health, inven
 
 TODO
 ----
-* Speed calculation method
 * Survival chance calculation
 * Weapons
 * Food (food for humans, food for zombies)

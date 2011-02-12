@@ -5,7 +5,7 @@ class ZombieSim
 	INIT_HUMANS  = 100
 	INIT_ZOMBIES = 1
 
-	@@locations = Hash.new{|h, k| h[k] = Array.new}
+	@@locations = Hash.new{|h, k| h[k] = AgentList.new}
 
 	def addAgent(agent, coor)
 		if coor.is_a? Coor3D
@@ -31,11 +31,11 @@ class ZombieSim
 	# This is the real meat of the simulation. All known agents get a chance to
 	# move, then zombification kicks in.
 	def step
-		newLocations = Hash.new{|h, k| h[k] = Array.new}
+		newLocations = Hash.new{|h, k| h[k] = AgentList.new}
 
 		@@locations.each do |here,agents|
-			zombiesHere = Array.new
-			humansHere  = Array.new
+			zombiesHere = AgentList.new
+			humansHere  = AgentList.new
 
 			# sort into zombies/humans; will need to know in order
 			# to figure out if we should try to make more zombies
@@ -57,7 +57,6 @@ class ZombieSim
 					if ! h.fight(numZombies, numHumans)
 						# Human lost. Remove it from existence...
 						agents.delete(h)
-						Human.rm
 						# ... And add a zombie
 						agents.push(Zombie.new)
 					end

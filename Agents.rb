@@ -1,5 +1,17 @@
 require "./Coor3D.rb"
 
+class AgentList < Array
+	def delete(obj)
+		if obj.is_a? Human
+			Human.decrement
+		elsif obj.is_a? Zombie
+			Zombie.decrement
+		end
+
+		super
+	end
+end
+
 # All zombies, humans, wild animals, etc. are derived from an Agent.
 class Agent
 	attr_reader :energy, :health
@@ -19,7 +31,10 @@ class Agent
 		to = Coor3D.parse_str(coor)
 		to.randomChange(speedFactor)
 
-		@energy -= MOVE_COST
+		# XXX Energy depletion as it is here results in all agents dying by
+		# XXX iteration 100 and moving slowly enough that no human succumbs to
+		# XXX zombification. Addition of food may solve this problem.
+		#@energy -= MOVE_COST
 
 		# If we've expended all energy, this agent need to die.
 		if @energy <= 0
@@ -42,7 +57,7 @@ end
 class Zombie < Agent
 	@@count = 0
 
-	def Zombie.rm
+	def Zombie.decrement
 		@@count -= 1
 	end
 
@@ -70,7 +85,7 @@ class Human < Agent
 	ZOMBIFICATION_CHANCE = 0.3
 
 	@@count = 0
-	def Human.rm
+	def Human.decrement
 		@@count -= 1
 	end
 
@@ -80,9 +95,9 @@ class Human < Agent
 	end
 
 	# Fighting should be a function of energy, health, number of enemies
-	# (zombies) number of allies (other humans at the smae location), and
+	# (zombies) number of allies (other humans at the same location), and
 	# some dumb luck. If all of these factors combine to be less than some
-	# predetermined value, then the human dies and beomces a zombie.
+	# predetermined value, then the human dies and becomes a zombie.
 	#
 	# Actual mechanics of that combination are up for debate. For now, just 
 	# deal with Lady Luck.
