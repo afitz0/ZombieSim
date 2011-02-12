@@ -1,10 +1,10 @@
 ZombieSim
 =========
 
-Overview and assumptions
-------------------------
-
 This is a basic Zombie Apocalypse simulator. In it's simplest form, it's just a riff on the standard SIR model without the 'R'; zombies can't "recover" and become human again.
+
+Details and Assumptions
+------------------------
 
 ### Zombification
 
