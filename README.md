@@ -15,7 +15,7 @@ A human's susceptibility can increase if they:
 * have diminished health from sustained injuries; or
 * have no weapons.
 
-Conversely, a human is less likely to succumb to zombification if the opposite of any the above criteria is true.
+Conversely, a human is less likely to succumb to zombification if the opposite of any the above criteria is true. However, a human will always have some chance of becoming a zombie; they can never be 100% immune.
 
 ### World Properties
 

@@ -4,42 +4,63 @@ require "./Coor3D.rb"
 class Agent
 	attr_reader :energy, :health
 
+	MAX_HEALTH = 100
+	MAX_ENERGY = 100
+	MOVE_COST  = 1
+
 	def initialize
-		@energy   = 100
-		@health   = 100
+		@energy   = MAX_ENERGY
+		@health   = MAX_HEALTH
 	end
 
+	# Returns nil if agent's energy has been expended.
+	# Otherwise, return the coordinate to move to.
 	def moveFrom(coor)
 		to = Coor3D.parse_str(coor)
+		to.randomChange(speedFactor)
 
-		d_x, d_y, d_z = (rand(4)-1), (rand(4)-1), (rand(4)-1)
-		to.x += d_x
-		to.y += d_y
-		to.z += d_z
+		@energy -= MOVE_COST
 
-		to
+		# If we've expended all energy, this agent need to die.
+		if @energy <= 0
+			nil
+		else
+			to
+		end
 	end
 
 	def to_s
 		"E: #@energy; H: #@health"
+	end
+
+	# Generate a factor in the range 0...10 based on current stats.
+	def speedFactor
+		Integer((@energy + @health) / (MAX_HEALTH + MAX_ENERGY)) * 10
 	end
 end
 
 class Zombie < Agent
 	@@count = 0
 
+	def Zombie.rm
+		@@count -= 1
+	end
+
 	def initialize
 		super
 		@@count += 1
+
+		# Zombies, by nature, have no health and cannot gain health. This also
+		# serves to cripple their movement speed.
+		# -----
+		# NOTE Value of 0 relies on speedFactor being additive not multiplicative,
+		# NOTE otherwise the zombie will never go anywhere.
+		@health = 0
+		@health.freeze
 	end
 
 	def Zombie.report
 		puts "There are #@@count zombies in the world."
-	end
-
-	def to_s
-		pre = super
-		"Zombie ("+pre+")"
 	end
 end
 

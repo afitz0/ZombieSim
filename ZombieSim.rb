@@ -67,7 +67,11 @@ class ZombieSim
 			# move all agents leftover here
 			agents.each do |agent|
 				newLoc = agent.moveFrom(here)
-				newLocations[newLoc.to_s].push(agent)
+				if newLoc == nil
+					agents.delete(agent)
+				else
+					newLocations[newLoc.to_s].push(agent)
+				end
 			end
 		end
 
