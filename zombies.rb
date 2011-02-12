@@ -12,9 +12,6 @@ require './ZombieSim.rb'
 
 z = ZombieSim.new(20, 10)
 
-10.times do |i|
-	p "---> Step #{i}"
-	z.step
-end
+1000.times {z.step}
 
 z.report

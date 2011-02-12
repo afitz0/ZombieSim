@@ -3,7 +3,7 @@
 class Coor3D
 	attr_reader :x, :y, :z
 
-	MAX_COOR = 2
+	MAX_COOR = 10
 
 	def initialize(x,y,z)
 		@x, @y, @z = x, y, z
@@ -51,8 +51,16 @@ class Coor3D
 		Coor3D.new(x,y,z)
 	end
 
-	def Coor3D.parse_str(str)
-		Coor3D.new(0,0,0)
+	def Coor3D.parse_str(s)
+		str = s.dup
+
+		str.gsub!(/\(|\)/, '')
+		x,y,z = str.split(',')
+		x = Integer(x)
+		y = Integer(y)
+		z = Integer(z)
+
+		Coor3D.new(x,y,z)
 	end
 end
 

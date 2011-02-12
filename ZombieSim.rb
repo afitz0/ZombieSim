@@ -37,10 +37,6 @@ class ZombieSim
 			zombiesHere = Array.new
 			humansHere  = Array.new
 
-			# XXX
-			# XXX BAD! Order of actions here is incorrect! XXX
-			# XXX
-
 			# sort into zombies/humans; will need to know in order
 			# to figure out if we should try to make more zombies
 			agents.each do |agent|
@@ -54,24 +50,23 @@ class ZombieSim
 			numZombies = zombiesHere.length
 			numHumans  = humansHere.length
 
+			# If there are zombies and humans here, Fight!
+			# Humans here have chance of becoming a zombie.
 			if numZombies > 0 && numHumans > 0
-				p "human-zombie fight!"
-				# humans here have chance of becoming a zombie
 				humansHere.each do |h|
 					if ! h.fight(numZombies, numHumans)
-						# remove human from existence...
+						# Human lost. Remove it from existence...
 						agents.delete(h)
 						Human.rm
 						# ... And add a zombie
-						newLocations[here].push(Zombie.new)
-						Zombie.add
+						agents.push(Zombie.new)
 					end
 				end
 			end
 
 			# move all agents leftover here
 			agents.each do |agent|
-				newLoc = agent.moveFrom(here) # TODO Coor3D needs a parse_str method
+				newLoc = agent.moveFrom(here)
 				newLocations[newLoc.to_s].push(agent)
 			end
 		end

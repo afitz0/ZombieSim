@@ -27,9 +27,6 @@ end
 
 class Zombie < Agent
 	@@count = 0
-	def Zombie.add
-		@@count += 1
-	end
 
 	def initialize
 		super
