@@ -9,9 +9,9 @@ class ZombieSim
 
 	def addAgent(agent, coor)
 		if coor.is_a? Coor3D
-			@@locations[coor.to_s].push(agent)
+			@@locations[coor].push(agent)
 		else
-			@@locations[Coor3D.random.to_s].push(agent)
+			@@locations[Coor3D.random].push(agent)
 		end
 	end
 
@@ -69,7 +69,7 @@ class ZombieSim
 				if newLoc == nil
 					agents.delete(agent)
 				else
-					newLocations[newLoc.to_s].push(agent)
+					newLocations[newLoc].push(agent)
 				end
 			end
 		end

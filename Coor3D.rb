@@ -68,12 +68,18 @@ class Coor3D
 
 	def ==(o)
 		if o.is_a? Coor3D
-			o.x == @x && o.y == @y && o.z == @z
+			@x.eql?(o.x) && @y.eql?(o.y) && @z.eql?(o.z)
 		else
 			false
 		end
 	end
 	alias eql? ==
 
+	def hash
+		code = 17
+		code = 37*code + @x.hash
+		code = 37*code + @y.hash
+		code = 37*code + @z.hash
+		code
+	end
 end
-

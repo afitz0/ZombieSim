@@ -28,8 +28,10 @@ class Agent
 	# Returns nil if agent's energy has been expended.
 	# Otherwise, return the coordinate to move to.
 	def moveFrom(coor)
-		to = Coor3D.parse_str(coor)
-		to.randomChange(speedFactor)
+		if coor.is_a? Coor3D
+			to = coor.dup
+			to.randomChange(speedFactor)
+		end
 
 		# XXX Energy depletion as it is here results in all agents dying by
 		# XXX iteration 100 and moving slowly enough that no human succumbs to
